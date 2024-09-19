@@ -1,7 +1,7 @@
 <script></script>
 
 <template>
-  <h1>HelloWorld</h1>
+  <h1>Home</h1>
 </template>
 
 <style scoped></style>
