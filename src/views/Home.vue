@@ -26,12 +26,25 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <h1>Home</h1>
-    <ul v-if="items.length">
-      <li v-for="item in items" :key="item.id">{{ item.content }}</li>
-    </ul>
-    <p v-else>No items found.</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-if="items.length === 0">
+          <td colspan="2">No items found.</td>
+        </tr>
+        <tr v-for="item in items" :key="item.id">
+          <td>{{ item.id }}</td>
+          <td>{{ item.content }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
