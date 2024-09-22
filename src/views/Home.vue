@@ -6,7 +6,18 @@ export default {
     return {
       items: [],
       newContent: { content: "" },
+      currentPage: 1,
+      itemsPerPage: 10,
     };
+  },
+  computed: {
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      return this.items.slice(start, start + this.itemsPerPage);
+    },
+    totalPages() {
+      return Math.ceil(this.items.length / this.itemsPerPage);
+    },
   },
   methods: {
     async fetchData() {
@@ -41,7 +52,6 @@ export default {
         }
 
         const data = await response.json();
-        // console.log("Item added:", data);
         this.newContent = data;
 
         Swal.fire({
@@ -88,15 +98,35 @@ export default {
         </tr>
       </thead>
       <tbody>
-        <tr v-if="items.length === 0">
+        <tr v-if="paginatedItems.length === 0">
           <td colspan="2">No items found.</td>
         </tr>
-        <tr v-for="item in items" :key="item.id">
+        <tr v-for="item in paginatedItems" :key="item.id">
           <td>{{ item.id }}</td>
           <td>{{ item.content }}</td>
         </tr>
       </tbody>
     </table>
+
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+          <a class="page-link" @click="currentPage--">Previous</a>
+        </li>
+        <li
+          v-for="page in totalPages"
+          :key="page"
+          class="page-item"
+          :class="{ active: currentPage === page }"
+        >
+          <a class="page-link" @click="currentPage = page">{{ page }}</a>
+        </li>
+        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+          <a class="page-link" @click="currentPage++">Next</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
+
 <style scoped></style>
