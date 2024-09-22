@@ -120,7 +120,7 @@ export default {
         }
 
         const data = await response.json();
-        this.newContent = { content: "" };
+        this.newContent = data;
 
         Swal.fire({
           title: "สำเร็จ!",
@@ -151,6 +151,9 @@ export default {
             `http://localhost:3333/api/delete/${id}`,
             {
               method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
             }
           );
 
@@ -165,9 +168,7 @@ export default {
         }
       }
     },
-    editItem(item) {
-      this.newContent = { ...item };
-    },
+    editItem(item) {},
   },
   mounted() {
     this.fetchData();
@@ -177,4 +178,7 @@ export default {
 
 <style scoped>
 /* Add any scoped styles here */
+.pagination {
+  cursor: pointer;
+}
 </style>
