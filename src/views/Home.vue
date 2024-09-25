@@ -136,27 +136,40 @@ export default {
       }
     },
     async deleteItem(id) {
-      try {
-        const response = await fetch(
-          `http://34.122.12.221:3001/delete/content/${id}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      const confirmDelete = await Swal.fire({
+        title: "คุณแน่ใจ?",
+        text: "คุณจะไม่สามารถเปลี่ยนกลับสิ่งนี้ได้!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      });
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+      if (confirmDelete.isConfirmed) {
+        try {
+          const response = await fetch(
+            `http://34.122.12.221:3001/delete/content/${id}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          this.fetchData();
+        } catch (error) {
+          console.error("Error deleting content:", error);
         }
-        await this.fetchData();
-      } catch (error) {
-        console.error("Error deleting content:", error);
       }
     },
   },
-
   mounted() {
     this.fetchData();
   },
