@@ -90,7 +90,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await fetch("http://localhost:8000/content", {
+        const response = await fetch("apicontent", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -108,7 +108,7 @@ export default {
     },
     async addItem() {
       try {
-        const response = await fetch("http://localhost:8000/content", {
+        const response = await fetch("api/content", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -148,21 +148,18 @@ export default {
 
       if (confirmDelete.isConfirmed) {
         try {
-          const response = await fetch(
-            `http://localhost:8000/delete/content/${id}`,
-            {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          const response = await fetch(`api/delete/content/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
 
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
 
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          Swal.fire("ลบแล้ว!", "ลบคอมเมนต์เรียบร้อยแล้ว.", "success");
           this.fetchData();
         } catch (error) {
           console.error("Error deleting content:", error);
