@@ -90,7 +90,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await fetch("http://34.122.12.221:3001/content", {
+        const response = await fetch("http://localhost:8000/content", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -108,7 +108,7 @@ export default {
     },
     async addItem() {
       try {
-        const response = await fetch("http://34.122.12.221:3001/content", {
+        const response = await fetch("http://localhost:8000/content", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -149,7 +149,7 @@ export default {
       if (confirmDelete.isConfirmed) {
         try {
           const response = await fetch(
-            `http://34.122.12.221:3001/delete/content/${id}`,
+            `http://localhost:8000/delete/content/${id}`,
             {
               method: "DELETE",
               headers: {
