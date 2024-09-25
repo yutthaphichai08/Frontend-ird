@@ -31,9 +31,9 @@
           <td>{{ item.id }}</td>
           <td>{{ item.content }}</td>
           <td>
-            <button @click="editItem(item)" class="btn btn-link text-primary">
+            <!-- <button @click="editItem(item)" class="btn btn-link text-primary">
               <i class="fas fa-edit"></i>
-            </button>
+            </button> -->
             <button
               @click="deleteItem(item.id)"
               class="btn btn-link text-danger"
@@ -90,7 +90,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await fetch("http://localhost:3333/api/content", {
+        const response = await fetch("http://34.122.12.221:3001/content", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -100,14 +100,15 @@ export default {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        this.items = await response.json();
+        const data = await response.json();
+        this.items = data;
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     },
     async addItem() {
       try {
-        const response = await fetch("http://localhost:3333/api/insert", {
+        const response = await fetch("http://34.122.12.221:3001/content", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -135,41 +136,27 @@ export default {
       }
     },
     async deleteItem(id) {
-      const confirmDelete = await Swal.fire({
-        title: "คุณแน่ใจ?",
-        text: "คุณจะไม่สามารถเปลี่ยนกลับสิ่งนี้ได้!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      });
-
-      if (confirmDelete.isConfirmed) {
-        try {
-          const response = await fetch(
-            `http://localhost:3333/api/delete/${id}`,
-            {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
+      try {
+        const response = await fetch(
+          `http://34.122.12.221:3001/delete/content/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
+        );
 
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
-          this.fetchData();
-        } catch (error) {
-          console.error("Error deleting content:", error);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
+        await this.fetchData();
+      } catch (error) {
+        console.error("Error deleting content:", error);
       }
     },
-    editItem(item) {},
   },
+
   mounted() {
     this.fetchData();
   },
