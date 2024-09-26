@@ -7,8 +7,8 @@ WORKDIR /app
 # คัดลอกไฟล์ package.json และ package-lock.json
 COPY package*.json ./
 
-# ติดตั้ง dependencies
-RUN npm install
+# ติดตั้ง dependencies ด้วยตัวเลือก --unsafe-perm
+RUN npm install --unsafe-perm
 
 # คัดลอกไฟล์ทั้งหมดไปยัง working directory
 COPY . .
