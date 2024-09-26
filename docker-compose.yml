@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  vuejs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3030:3030"  # แมปพอร์ต 3030 ของเครื่อง local กับ container
+    volumes:
+      - .:/app  # แมปโฟลเดอร์โปรเจกต์ในเครื่อง local ไปยัง /app ใน container
+    stdin_open: true  # เพื่อรองรับการพัฒนาและการรับสัญญาณ
+    tty: true  # เพื่อให้คอนเทนเนอร์ทำงานแบบ interactive
