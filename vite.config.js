@@ -5,6 +5,7 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   plugins: [vue()],
   server: {
+    host: true, // เพิ่มบรรทัดนี้
     port: 3030,
     proxy: {
       "/api": {
